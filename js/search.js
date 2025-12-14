@@ -5,10 +5,10 @@ export const apiConfigs = {
     search: async (query) => {
       try {
         const response = await fetch(
-          https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}
+          `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`
         );
         if (!response.ok) return [];
-        
+
         const data = await response.json();
         return [{
           title: data.title,
@@ -24,23 +24,23 @@ export const apiConfigs = {
       }
     }
   },
-  
+
   openlib: {
     name: 'Open Library',
     class: 'source-openlib',
     search: async (query) => {
       try {
         const response = await fetch(
-          https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=5
+          `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=5`
         );
         const data = await response.json();
-        
+
         return (data.docs || []).map(book => ({
           title: book.title,
-          excerpt: By ${book.author_name?.join(', ') || 'Unknown'} · First published ${book.first_publish_year || 'N/A'},
+          excerpt: `By ${book.author_name?.join(', ') || 'Unknown'} · First published ${book.first_publish_year || 'N/A'}`,
           source: 'Open Library',
           sourceClass: 'source-openlib',
-          url: https://openlibrary.org${book.key},
+          url: `https://openlibrary.org${book.key}`,
           meta: { type: 'Book' }
         }));
       } catch (error) {
@@ -49,23 +49,21 @@ export const apiConfigs = {
       }
     }
   },
-  
+
   dictionary: {
     name: 'Dictionary',
     class: 'source-dictionary',
     search: async (query) => {
       try {
         const response = await fetch(
-          https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(query)}
+          `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(query)}`
         );
         if (!response.ok) return [];
-        
+
         const data = await response.json();
         return data.map(entry => ({
           title: entry.word,
-          excerpt: entry.meanings?.map(m => 
-            (${m.partOfSpeech}) ${m.definitions?.[0]?.definition}
-          ).join(' · ') || '',
+          excerpt: entry.meanings?.map(m => `(${m.partOfSpeech}) ${m.definitions?.[0]?.definition}`).join(' · ') || '',
           source: 'Dictionary',
           sourceClass: 'source-dictionary',
           url: entry.sourceUrls?.[0],
@@ -77,17 +75,17 @@ export const apiConfigs = {
       }
     }
   },
-  
+
   nasa: {
     name: 'NASA',
     class: 'source-nasa',
     search: async (query) => {
       try {
         const response = await fetch(
-          https://images-api.nasa.gov/search?q=${encodeURIComponent(query)}&media_type=image
+          `https://images-api.nasa.gov/search?q=${encodeURIComponent(query)}&media_type=image`
         );
         if (!response.ok) return [];
-        
+
         const data = await response.json();
         return (data.collection?.items || []).slice(0, 5).map(item => ({
           title: item.data?.[0]?.title || 'Untitled',
@@ -138,11 +136,9 @@ export async function performSearch() {
 
   try {
     let results = [];
-    
+
     if (selectedAPI === 'all') {
-      const promises = Object.values(apiConfigs).map(api => 
-        api.search(query).catch(() => [])
-      );
+      const promises = Object.values(apiConfigs).map(api => api.search(query).catch(() => []));
       const allResults = await Promise.all(promises);
       results = allResults.flat();
     } else if (apiConfigs[selectedAPI]) {
@@ -150,22 +146,20 @@ export async function performSearch() {
     }
 
     loading.classList.remove('active');
-    resultsCount.textContent = ${results.length} result${results.length !== 1 ? 's' : ''};
+    resultsCount.textContent = `${results.length} result${results.length !== 1 ? 's' : ''}`;
 
     if (results.length === 0) {
-      resultsGrid.innerHTML = 
-        <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
-          <p>No results found. Try a different search term or source.</p>
-        </div>
-      ;
+      resultsGrid.innerHTML = `<div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+        <p>No results found. Try a different search term or source.</p>
+      </div>`;
       return;
     }
 
     results.forEach((result, index) => {
       const card = document.createElement('div');
       card.className = 'result-card';
-      card.style.animationDelay = ${index * 0.1}s;
-      card.innerHTML = 
+      card.style.animationDelay = `${index * 0.1}s`;
+      card.innerHTML = `
         <div class="result-source">
           <span class="source-dot ${result.sourceClass}"></span>
           ${result.source}
@@ -174,27 +168,25 @@ export async function performSearch() {
         <p class="result-excerpt">${result.excerpt}</p>
         <div class="result-meta">
           <span>${result.meta?.type || 'Result'}</span>
-          ${result.meta?.phonetic ? <span>${result.meta.phonetic}</span> : ''}
-          ${result.meta?.date ? <span>${result.meta.date}</span> : ''}
+          ${result.meta?.phonetic ? `<span>${result.meta.phonetic}</span>` : ''}
+          ${result.meta?.date ? `<span>${result.meta.date}</span>` : ''}
         </div>
         <button class="bookmark-btn" onclick="event.stopPropagation(); window.addBookmark(${JSON.stringify(result).replace(/"/g, '&quot;')})">⭐</button>
-      ;
+      `;
       card.onclick = () => {
         if (result.url) window.open(result.url, '_blank');
       };
       resultsGrid.appendChild(card);
     });
-    
+
     if (typeof window.addToSearchHistory === 'function') {
       window.addToSearchHistory(query, results.length);
     }
 
   } catch (error) {
     loading.classList.remove('active');
-    resultsGrid.innerHTML = 
-      <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
-        <p>Something went wrong. Please try again.</p>
-      </div>
-    ;
+    resultsGrid.innerHTML = `<div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+      <p>Something went wrong. Please try again.</p>
+    </div>`;
   }
 }
