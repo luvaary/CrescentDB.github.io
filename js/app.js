@@ -34,16 +34,29 @@ function setupEventListeners() {
   }
 }
 
-function loadFeatures() {
-  if (typeof window.loadNotes === 'function') {
-    window.loadNotes();
-  }
+async function loadFeatures() {
+  try {
+    const { initNotes } = await import('./features/notes.js');
+    initNotes();
+  } catch (e) {}
   
-  if (typeof window.loadSearchHistory === 'function') {
-    window.loadSearchHistory();
-  }
+  try {
+    const { initHistory } = await import('./features/history.js');
+    initHistory();
+  } catch (e) {}
   
-  if (typeof window.initTimer === 'function') {
-    window.initTimer();
-  }
+  try {
+    const { initDarkMode } = await import('./features/darkmode.js');
+    initDarkMode();
+  } catch (e) {}
+  
+  try {
+    const { initTimer } = await import('./features/timer.js');
+    initTimer();
+  } catch (e) {}
+  
+  try {
+    const { initBookmarks } = await import('./features/bookmarks.js');
+    initBookmarks();
+  } catch (e) {}
 }
