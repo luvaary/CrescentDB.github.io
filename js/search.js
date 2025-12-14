@@ -177,12 +177,17 @@ export async function performSearch() {
           ${result.meta?.phonetic ? `<span>${result.meta.phonetic}</span>` : ''}
           ${result.meta?.date ? `<span>${result.meta.date}</span>` : ''}
         </div>
+        <button class="bookmark-btn" onclick="event.stopPropagation(); window.addBookmark(${JSON.stringify(result).replace(/"/g, '&quot;')})">⭐</button>
       `;
       card.onclick = () => {
         if (result.url) window.open(result.url, '_blank');
       };
       resultsGrid.appendChild(card);
     });
+    
+    if (typeof window.addToSearchHistory === 'function') {
+      window.addToSearchHistory(query, results.length);
+    }
 
   } catch (error) {
     loading.classList.remove('active');
@@ -192,4 +197,4 @@ export async function performSearch() {
       </div>
     `;
   }
-                }
+}
