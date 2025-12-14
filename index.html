@@ -3,100 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crescent — Calm Search for Students</title>
-  <meta name="description" content="Crescent — Calm search engine for students with Wikipedia, books, dictionary, NASA images, notes, timer, and bookmarks.">
-  <meta name="theme-color" content="#c4a87c">
-  
+  <title>Crescent - Calm Search for Students</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  
+
   <link rel="stylesheet" href="css/main.css">
-  <link rel="preload" href="css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="css/components.css"></noscript>
-  <link rel="preload" href="css/features.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="css/features.css"></noscript>
-  
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/features.css">
+
   <link rel="icon" href="assets/favicon.ico">
 </head>
 <body>
-  <div class="orb orb-1" aria-hidden="true"></div>
-  <div class="orb orb-2" aria-hidden="true"></div>
-  <div class="orb orb-3" aria-hidden="true"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
 
   <nav>
     <a href="#" class="logo">
       <div class="logo-icon">
-        <svg viewBox="0 0 32 32" aria-hidden="true">
+        <svg viewBox="0 0 32 32">
           <path class="crescent-moon" d="M20 4a12 12 0 1 0 0 24 12 12 0 0 1 0-24z"/>
         </svg>
       </div>
       <span class="logo-text">CRESCENT</span>
     </a>
-
     <div class="nav-center">
-      <div class="clock" id="clock" aria-label="Current time">--:--</div>
+      <div class="clock" id="clock">--:--</div>
     </div>
-
     <ul class="nav-links">
       <li><a href="#search">Search</a></li>
-      <li><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://github.com" target="_blank">GitHub</a></li>
       <li><a href="#about">About</a></li>
     </ul>
-
-    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">🌙</button>
+    <button class="dark-mode-toggle" id="darkModeToggle">🌙</button>
   </nav>
 
   <div class="spotify-tab">
-    <button class="spotify-toggle" id="spotifyToggle" aria-label="Open Spotify panel">
-      <svg class="spotify-icon" viewBox="0 0 24 24" aria-hidden="true">
+    <button class="spotify-toggle" id="spotifyToggle">
+      <svg class="spotify-icon" viewBox="0 0 24 24">
         <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
       </svg>
       <span>MUSIC</span>
     </button>
   </div>
 
-  <div class="notes-panel" id="notesPanel" aria-label="Notes panel">
+  <div class="notes-panel" id="notesPanel">
     <h3>Notes</h3>
-    <label for="notesTextarea" class="visually-hidden">Notes input</label>
     <textarea id="notesTextarea" placeholder="Take notes while you study..."></textarea>
     <div class="notes-actions">
-      <button onclick="saveNotes()" aria-label="Save notes">Save</button>
-      <button onclick="clearNotes()" aria-label="Clear notes">Clear</button>
+      <button onclick="saveNotes()">Save</button>
+      <button onclick="clearNotes()">Clear</button>
     </div>
   </div>
 
-  <div class="timer-widget" id="timerWidget" aria-label="Study timer widget">
+  <div class="timer-widget" id="timerWidget">
     <h3>Study Timer</h3>
-    <div class="timer-display" id="timerDisplay" aria-live="polite">25:00</div>
+    <div class="timer-display" id="timerDisplay">25:00</div>
     <div class="timer-controls">
-      <button id="startTimer" aria-label="Start timer">Start</button>
-      <button id="stopTimer" aria-label="Stop timer">Stop</button>
-      <button id="resetTimer" aria-label="Reset timer">Reset</button>
+      <button id="startTimer">Start</button>
+      <button id="stopTimer">Stop</button>
+      <button id="resetTimer">Reset</button>
     </div>
   </div>
 
-  <div class="history-panel" id="historyPanel" aria-label="Search history panel">
+  <div class="history-panel" id="historyPanel">
     <h3>Search History</h3>
     <div id="historyList"></div>
-    <button class="clear-history-btn" onclick="clearHistory()" aria-label="Clear search history">Clear History</button>
+    <button class="clear-history-btn" onclick="clearHistory()">Clear History</button>
   </div>
 
-  <div class="bookmarks-panel" id="bookmarksPanel" aria-label="Bookmarks panel">
+  <div class="bookmarks-panel" id="bookmarksPanel">
     <h3>Bookmarks</h3>
     <div id="bookmarksList"></div>
-    <button class="clear-bookmarks-btn" onclick="clearBookmarks()" aria-label="Clear bookmarks">Clear Bookmarks</button>
+    <button class="clear-bookmarks-btn" onclick="clearBookmarks()">Clear Bookmarks</button>
   </div>
 
-  <div class="spotify-panel" id="spotifyPanel" aria-label="Spotify panel">
-    <button class="close-spotify" id="closeSpotify" aria-label="Close Spotify panel">×</button>
+  <div class="spotify-panel" id="spotifyPanel">
+    <button class="close-spotify" id="closeSpotify">×</button>
     <h3>Now Playing</h3>
     <div class="spotify-placeholder">
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="#1db954" aria-hidden="true">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="#1db954">
         <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
       </svg>
       <p>Connect your Spotify account to see what's playing</p>
-      <button class="spotify-connect" aria-label="Connect Spotify account">Connect Spotify</button>
+      <button class="spotify-connect">Connect Spotify</button>
     </div>
   </div>
 
@@ -108,17 +100,9 @@
 
     <div class="search-container">
       <div class="search-box">
-        <label for="searchInput" class="visually-hidden">Search input</label>
-        <input 
-          type="text" 
-          class="search-input" 
-          id="searchInput"
-          placeholder="What would you like to explore?"
-          autocomplete="off"
-          aria-label="Search"
-        >
-        <button class="search-btn" id="searchBtn" aria-label="Perform search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <input type="text" class="search-input" id="searchInput" placeholder="What would you like to explore?" autocomplete="off">
+        <button class="search-btn" id="searchBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8"/>
             <path d="m21 21-4.35-4.35"/>
           </svg>
@@ -148,7 +132,7 @@
     </section>
 
     <div class="empty-state" id="emptyState">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
         <circle cx="12" cy="12" r="10"/>
         <path d="M12 6v6l4 2"/>
       </svg>
@@ -158,11 +142,11 @@
     <footer>
       <p>Crescent — Built with calm intention</p>
       <p>
-        <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="https://github.com" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+        <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="https://github.com" target="_blank">View on GitHub</a>
       </p>
     </footer>
   </main>
 
-  <script type="module" src="js/app.js" defer></script>
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
