@@ -8,35 +8,55 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateClock, 1000);
 
   initSearch();
+
   setupEventListeners();
 
   fadeInPage();
+
   loadFeatures();
 });
 
 function setupEventListeners() {
   const searchBtn = document.getElementById('searchBtn');
+  if (searchBtn) {
+    searchBtn.addEventListener('click', performSearch);
+  }
+
   const spotifyToggle = document.getElementById('spotifyToggle');
   const closeSpotify = document.getElementById('closeSpotify');
 
-  searchBtn?.addEventListener('click', performSearch);
-  spotifyToggle?.addEventListener('click', toggleSpotify);
-  closeSpotify?.addEventListener('click', toggleSpotify);
+  if (spotifyToggle) {
+    spotifyToggle.addEventListener('click', toggleSpotify);
+  }
+
+  if (closeSpotify) {
+    closeSpotify.addEventListener('click', toggleSpotify);
+  }
 }
 
 async function loadFeatures() {
-  const features = [
-    { path: './features/notes.js', init: 'initNotes' },
-    { path: './features/history.js', init: 'initHistory' },
-    { path: './features/darkmode.js', init: 'initDarkMode' },
-    { path: './features/timer.js', init: 'initTimer' },
-    { path: './features/bookmarks.js', init: 'initBookmarks' },
-  ];
+  try {
+    const { initNotes } = await import('./features/notes.js');
+    initNotes();
+  } catch (e) {}
 
-  for (const f of features) {
-    try {
-      const module = await import(f.path);
-      module[f.init]?.();
-    } catch {}
-  }
+  try {
+    const { initHistory } = await import('./features/history.js');
+    initHistory();
+  } catch (e) {}
+
+  try {
+    const { initDarkMode } = await import('./features/darkmode.js');
+    initDarkMode();
+  } catch (e) {}
+
+  try {
+    const { initTimer } = await import('./features/timer.js');
+    initTimer();
+  } catch (e) {}
+
+  try {
+    const { initBookmarks } = await import('./features/bookmarks.js');
+    initBookmarks();
+  } catch (e) {}
 }
